@@ -1,75 +1,26 @@
-#ifndef __ALARM_CLOCK_SERVICE_HPP__
-#define __ALARM_CLOCK_SERVICE_HPP__
-
 #include<iostream>
-#include<chrono>
-#include<thread>
-#include<mutex>
-#include<condition_variable>
-class AlarmClockService
+#include"AlarmClockService.hpp"
+void startAlarmThread(AlarmClockService *a5,int timeInSecond)
 {
-  private:
-	std::condition_variable cv;
-	std::mutex mtx;
-	bool restart;
-	int _timeInSecond;
-  public:
-    AlarmClockService(int timeInSecond);
-    ~AlarmClockService(){};
-	void restartAlarm(int timeInSecond );
-	void stopAlarm();
-	void startAlarm(int timeInSecond);
-};
-AlarmClockService::AlarmClockService(int timeInSecond )
-{
-	_timeInSecond = timeInSecond;
+  a5->startAlarm(timeInSecond);
 }
-void AlarmClockService::stopAlarm()
+
+int main()
 {
-  std::cout<<"Inside stopAlarm :: we are stoping this alarm"<<std::endl;
-  cv.notify_one();
+  AlarmClockService a1(5);
+  AlarmClockService a2(15);
+  AlarmClockService a3(25);
+
+  std::thread th1(startAlarmThread,&a1,10); 
+  std::thread th2(startAlarmThread,&a2,15); 
+  std::thread th3(startAlarmThread,&a3,20); 
+
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+  a1.restartAlarm();
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+  a1.stopAlarm();
+  th1.join();
+  th2.join();
+  th3.join();
+  return 0;
 }
-void AlarmClockService::restartAlarm(int timeInSecond=0)
-{
-  std::unique_lock<std::mutex> lck(mtx);
-  if(timeInSecond !=0)
-  {
-    _timeInSecond=timeInSecond;
-  }
-  std::cout<<"Inside restartAlarm :: we are restarting the timer"<<std::endl;
-  restart = true;
-  lck.unlock();
-  cv.notify_one();
-}
-void AlarmClockService::startAlarm(int timeInSecond = 0)
-{
-  restart = false;
-  std::unique_lock<std::mutex> lck(mtx,std::defer_lock);
-  if(timeInSecond !=0 )
-  {
-  	_timeInSecond = timeInSecond;
-  }
-  do{
-	lck.lock();
-	std::cout<<" Alarm time  :: "<<_timeInSecond <<" "<<std::endl;
-	lck.unlock();
-	lck.lock();
-	cv.wait_for(lck,std::chrono::seconds(_timeInSecond));
-	if(restart == false)
-	{
-	  std::cout<<"Either timed out or asked to stop"<<std::endl;
-	  lck.unlock();
-	}
-	else 
-	{
-	  restart = false;
-	  lck.unlock();
-	  lck.lock();
-	  std::cout<<" Alarm time  :: "<<_timeInSecond <<" "<<std::endl;
-	  cv.wait_for(lck,std::chrono::seconds(_timeInSecond));
-	  std::cout<<"After reset :: Either timed out or asked to stop"<<std::endl;
-	  lck.unlock();
-	}
-  }while(restart == true);
-}
-#endif
