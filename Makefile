@@ -1,12 +1,14 @@
-SUBDIRS := $(wildcard */.)
-PP := alarmClock barberProject
+SUBDIRS = $(wildcard */.) 
 
-.PHONY: all $(SUBDIRS) 
-all: $(SUBDIRS)
-$(SUBDIRS):
-	$(MAKE) -C $@
-
-.PHONY: clean $(PP)
-clean: $(PP)
-$(PP):
-	$(MAKE) -C $@ clean
+all:
+	for dir in $(SUBDIRS); do \
+	$(MAKE) -C $$dir; \
+	done
+clean:
+	for dir in $(SUBDIRS); do \
+	$(MAKE) -C $$dir clean; \
+	done
+memcheck:
+	for dir in $(SUBDIRS); do \
+	$(MAKE) -C $$dir memcheck; \
+	done

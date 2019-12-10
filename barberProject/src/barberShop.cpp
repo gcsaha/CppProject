@@ -48,7 +48,8 @@ void customerQueueManager()
 	int barberId = 2;
 	int extra_wait_time = 0;
 	int i=0;
-	while(true)
+	int count =0;
+	while(count < 3)
 	{
 		auto numberOfCostomer = 1 + rand()%5;
 		unique_lock<mutex> lk(queueLock);
@@ -76,10 +77,11 @@ void customerQueueManager()
 		auto sleepTime = extra_wait_time + 1 + rand()%14;
 		extra_wait_time = 0;
 		cout<<"I am customerQueueManager going to sleep for : "<<sleepTime<<endl;
-    cout<<"cirrent queue size = "<<myQueue.size()<<endl;
+		cout<<"cirrent queue size = "<<myQueue.size()<<endl;
 		lk.unlock();
 		cond.notify_all();
 		this_thread::sleep_for(std::chrono::seconds(sleepTime));
+		count++;
 	}
 	cout<<"Exiting from customerQueueManager"<<endl;
 }
@@ -94,6 +96,8 @@ int main()
 	thread t1(customerQueueManager);
 	thread t2(barber,1);
 	t1.join();
+	for(auto i=0;i<20;i++)
+		threadLife[i]=false;
 	t2.join();
 	return 0;
 }
