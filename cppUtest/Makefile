@@ -4,32 +4,41 @@ INCLDIR	= inc/
 BINDIR	= bin/
 OBJDIR	= obj/
 SRCDIR	= src/
+TSTDIR	= tst/
 
 _BIN	= AlarmService 
 
 BIN	= $(addprefix $(BINDIR), $(_BIN))
 
-SRC	= $(wildcard src/*.cpp)
-_OBJS	= $(patsubst src/%.cpp, %.o, $(SRC))
+SRC	= $(wildcard src/*.c)
+TST	= $(wildcard tst/*.cpp)
+
+_OBJS	= $(patsubst src/%.c, %.o, $(SRC))
 OBJS	= $(addprefix $(OBJDIR), $(_OBJS))
+_TSTOBJS	= $(patsubst tst/%.cpp, %.o, $(TST))
+TSTOBJS	= $(addprefix $(OBJDIR), $(_TSTOBJS))
+OBJS += $(TSTOBJS)
 
 CFLAGS = -std=c++17 -g -I$(INCLDIR)
-OFLAGS = -pthread
+OFLAGS = -pthread 
+LFLAGS = -lCppUTest
 
 .PHONY: all
-all: $(BIN) 
+all: dircreation $(BIN) 
+	./$(BIN)
 
-$(BIN): $(BINDIR) $(OBJS)
-	$(CC) $(OFLAGS) $(OBJS) -o $(BIN) 
+$(OBJDIR)%.o: $(SRCDIR)%.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJDIR)%.o: $(TSTDIR)%.cpp 
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BINDIR):
-	mkdir -p $(BINDIR)
+$(BIN): $(OBJS) 
+	$(CC) $(OFLAGS) $(OBJS) $(LFLAGS) -o $(BIN) 
 
-$(OBJS): $(OBJDIR) $(SRC)
-	$(CC) $(CFLAGS) -c $(SRC) -o $(OBJS) 
 
-$(OBJDIR):
+dircreation: 
 	mkdir -p $(OBJDIR)
+	mkdir -p $(BINDIR)	
 
 .PHONY: clean 
 clean:
