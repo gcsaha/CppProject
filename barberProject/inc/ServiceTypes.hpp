@@ -1,3 +1,11 @@
+/**
+ * @defgroup   SERVICETYPES Service Types
+ *
+ * @brief      This file implements Service Types.
+ *
+ * @author     Gour Chandra Saha
+ * @date       12-Dec-2019
+ */
 #ifndef __SERVICE_TYPES_HPP__
 #define __SERVICE_TYPES_HPP__
 #include <iostream>

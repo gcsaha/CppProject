@@ -1,3 +1,13 @@
+/**
+ * @defgroup   ALARMSERVICE Alarm Service
+ *
+ * @brief      This file implements Alarm Service.
+ *
+ * @author     Gour Chandra Saha
+ * @date       12-Dec-2019
+ */
+
+
 #include<iostream>
 #include"AlarmClockService.hpp"
 /* Future need to add more */

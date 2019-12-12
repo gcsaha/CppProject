@@ -1,3 +1,12 @@
+/**
+ * @defgroup   BARBERSHOP barber Shop
+ *
+ * @brief      This file implements barber Shop.
+ *
+ * @author     Gour Chandra Saha
+ * @date       12-Dec-2019
+ */
+
 #include <iostream>
 #include <thread>
 #include <mutex>

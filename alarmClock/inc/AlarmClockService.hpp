@@ -1,3 +1,11 @@
+/**
+ * @defgroup   ALARMCLOCKSERVICE Alarm Clock Service
+ *
+ * @brief      This file implements Alarm Clock Service.
+ *
+ * @author     Gour Chandra Saha
+ * @date       12-Dec-2019
+ */
 #ifndef __ALARM_CLOCK_SERVICE_HPP__
 #define __ALARM_CLOCK_SERVICE_HPP__
 

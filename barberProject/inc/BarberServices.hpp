@@ -1,3 +1,12 @@
+/**
+ * @defgroup   BARBERSERVICES Barber Services
+ *
+ * @brief      This file implements Barber Services.
+ *
+ * @author     Gour Chandra Saha
+ * @date       12-Dec-2019
+ */
+
 #ifndef __BARBER_SERVICES_HPP__
 #define __BARBER_SERVICES_HPP__
 #include "ServiceTypes.hpp"
