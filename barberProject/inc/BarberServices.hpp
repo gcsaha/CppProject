@@ -6,6 +6,10 @@
 #include <iostream>
 #include <string>
 using namespace std;
+
+/**
+ * @brief      This class describes barber services.
+ */
 class BarberServices
 {
 private:
@@ -21,6 +25,11 @@ public:
 	void generateServiceAttribute();
 };
 
+/**
+ * @brief      Constructs a new instance.
+ *
+ * @param[in]  _customerId  The customer identifier
+ */
 BarberServices::BarberServices(int _customerId)
 {
 	unsigned char index;
@@ -31,18 +40,40 @@ BarberServices::BarberServices(int _customerId)
 	serviceDuration = serviceDurationVal[ii];
 	serviceName = serviceNameArray[ii];
 }
+
+/**
+ * @brief      Gets the service name.
+ *
+ * @return     The service name.
+ */
 string BarberServices::getServiceName()
 {
 	return serviceName;
 }
+
+/**
+ * @brief      Gets the service duration.
+ *
+ * @return     The service duration.
+ */
 int BarberServices::getServiceDuration()
 {
 	return serviceDuration;
 }
+
+/**
+ * @brief      Gets the customer identifier.
+ *
+ * @return     The customer identifier.
+ */
 int BarberServices::getCustomerId()
 {
 	return customerId;
 }
+
+/**
+ * @brief      Generate service attributes.
+ */
 void BarberServices::generateServiceAttribute()
 {
 	unsigned char index;

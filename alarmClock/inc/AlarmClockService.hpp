@@ -6,6 +6,9 @@
 #include<thread>
 #include<mutex>
 #include<condition_variable>
+/**
+ * @brief      This class describes an alarm clock service.
+ */
 class AlarmClockService
 {
   private:
@@ -20,15 +23,31 @@ class AlarmClockService
 	void stopAlarm();
 	void startAlarm(int timeInSecond);
 };
+
+/**
+ * @brief      Constructs a new instance.
+ *
+ * @param[in]  timeInSecond  The time in second
+ */
 AlarmClockService::AlarmClockService(int timeInSecond )
 {
 	_timeInSecond = timeInSecond;
 }
+
+/**
+ * @brief      Stops an alarm.
+ */
 void AlarmClockService::stopAlarm()
 {
   std::cout<<"Inside stopAlarm :: we are stoping this alarm"<<std::endl;
   cv.notify_one();
 }
+
+/**
+ * @brief      Restart the existing timer.
+ *
+ * @param[in]  timeInSecond  The time in second
+ */
 void AlarmClockService::restartAlarm(int timeInSecond=0)
 {
   std::unique_lock<std::mutex> lck(mtx);
@@ -41,6 +60,12 @@ void AlarmClockService::restartAlarm(int timeInSecond=0)
   lck.unlock();
   cv.notify_one();
 }
+
+/**
+ * @brief      Starts an alarm.
+ *
+ * @param[in]  timeInSecond  The time in second
+ */
 void AlarmClockService::startAlarm(int timeInSecond = 0)
 {
   restart = false;
