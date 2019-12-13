@@ -85,7 +85,6 @@ void customerQueueManager()
 			}
 		}
 		i++;
-		sadfad
 		auto sleepTime = extra_wait_time + 1 + rand()%14;
 		extra_wait_time = 0;
 		cout<<"I am customerQueueManager going to sleep for : "<<sleepTime<<endl;
